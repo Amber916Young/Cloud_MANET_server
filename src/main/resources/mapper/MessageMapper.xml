@@ -1,0 +1,210 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.manet.mapper.MessageMapper">
+
+    <insert id="insertMessage"  parameterType="hashmap">
+        insert into android.Message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="sendDate != null">
+                sendDate,
+            </if>
+            <if test="readDate != null">
+                readDate,
+            </if>
+            <if test="isRead != null">
+                isRead,
+            </if>
+            <if test="isUpload != null">
+                isUpload,
+            </if>
+            <if test="targetName != null">
+                targetName,
+            </if>
+            <if test="targetMAC != null">
+                targetMAC,
+            </if>
+            <if test="sourceName != null">
+                sourceName,
+            </if>
+            <if test="sourceMAC != null">
+                sourceMAC,
+            </if>
+            <if test="uploadName != null">
+                uploadName,
+            </if>
+            <if test="uploadMAC != null">
+                uploadMAC,
+            </if>
+
+            <if test="uploadTime != null">
+                uploadTime,
+            </if>
+            <if test="dataType != null">
+                dataType,
+            </if>
+            <if test="fileContent != null">
+                fileContent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="sendDate != null">
+                #{sendDate},
+            </if>
+            <if test="readDate != null">
+                #{readDate},
+            </if>
+            <if test="isRead != null">
+                #{isRead},
+            </if>
+            <if test="isUpload != null">
+                #{isUpload},
+            </if>
+            <if test="targetName != null">
+                #{targetName},
+            </if>
+            <if test="targetMAC != null">
+                #{targetMAC},
+            </if>
+            <if test="sourceName != null">
+                #{sourceName},
+            </if>
+            <if test="sourceMAC != null">
+                #{sourceMAC},
+            </if>
+            <if test="uploadName != null">
+                #{uploadName},
+            </if>
+            <if test="uploadMAC != null">
+                #{uploadMAC},
+            </if>
+            <if test="uploadTime != null">
+                #{uploadTime},
+            </if>
+            <if test="dataType != null">
+                #{dataType},
+            </if>
+            <if test="fileContent != null">
+                #{fileContent},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMessage"  parameterType="hashmap">
+        update android.Message
+        <set>
+            <if test="isRead != null">
+                isRead = #{isRead},
+            </if>
+            <if test="readDate != null">
+                readDate = #{readDate},
+            </if>
+        </set>
+        where uuid = #{uuid}
+    </update>
+    <update id="updateMessageEntity"  parameterType="com.yang.manet.entity.Message">
+        update android.Message
+        <set>
+            <if test="isRead != null">
+                isRead = #{isRead},
+            </if>
+            <if test="readDate != null">
+                readDate = #{readDate},
+            </if>
+        </set>
+        where uuid = #{uuid}
+    </update>
+
+    <select id="queryMessage" resultType="com.yang.manet.entity.Message">
+        select * from android.Message
+        <where>
+            1=1
+            <if test="uuid !=null">
+                and uuid=#{uuid}
+            </if>
+            <if test="isRead !=null">
+                and isRead=#{isRead}
+            </if>
+            <if test="sourceName !=null">
+                and sourceName=#{sourceName}
+            </if>
+            <if test="sourceMAC !=null">
+                and sourceMAC=#{sourceMAC}
+            </if>
+        </where>
+    </select>
+
+    
+    <select id="queryMessageByMap" resultType="com.yang.manet.entity.Message">
+        select * from android.Message
+        <where>
+            1=1
+            <if test="uuid !=null">
+                and uuid=#{uuid}
+            </if>
+        </where>
+    </select>
+    <select id="queryMessageByConditions1" resultType="com.yang.manet.entity.Message">
+        select * from android.Message
+        <where>
+            1=1
+            <if test="sourceName !=null">
+                and sourceName = #{sourceName}
+            </if>
+            <if test="targetName !=null">
+                and targetName != #{targetName}
+            </if>
+
+            <if test="readDate !=null">
+                and readDate != #{readDate}
+            </if>
+        </where>
+    </select>
+    <select id="queryMessageByConditions2" resultType="com.yang.manet.entity.Message">
+        select * from android.Message
+        <where>
+            1=1
+            <if test="sourceName !=null">
+                and sourceName != #{sourceName}
+            </if>
+            <if test="targetName !=null">
+                and targetName = #{targetName}
+            </if>
+            <if test="readDate !=null">
+                and readDate = #{readDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMessageByConditions3" resultType="com.yang.manet.entity.Message">
+        select * from android.Message
+        <where>
+            1=1
+            <if test="sourceName !=null">
+                and sourceName = #{sourceName}
+            </if>
+            <if test="targetName !=null">
+                and targetName = #{targetName}
+            </if>
+            <if test="readDate !=null">
+                and readDate != #{readDate}
+            </if>
+            <if test="isRead !=null">
+                and isRead = #{isRead}
+            </if>
+        </where>
+
+    </select>
+</mapper>

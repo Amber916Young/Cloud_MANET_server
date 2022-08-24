@@ -1,0 +1,131 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.manet.mapper.MANETMapper">
+    <insert id="insertMANET">
+        insert into android.MANET
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="ownerID != null">
+                ownerID,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid},
+            </if>
+            <if test="ownerID != null">
+                #{ownerID},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertMANETmember">
+        insert into android.MANET_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="MANET_UUID != null">
+                MANET_UUID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid},
+            </if>
+            <if test="MANET_UUID != null">
+                #{MANET_UUID},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateMANTE">
+        update android.MANET
+        <trim prefix="set" suffixOverrides=",">
+            <if test="ownerID !=null">
+                ownerID = #{ownerID},
+            </if>
+            <if test="number !=null">
+                number = #{number},
+            </if>
+        </trim>
+        where uuid = #{uuid}
+    </update>
+
+    <delete id="deleteMANET_member">
+        delete from android.MANET_member
+        <where>
+            1=1
+            <if test="uuid !=null">
+                and uuid = #{uuid}
+            </if>
+            <if test="MANET_UUID !=null">
+                and MANET_UUID = #{MANET_UUID}
+            </if>
+            <if test="id !=null">
+                and id != #{id}
+            </if>
+        </where>
+    </delete>
+    <select id="queryMANET" resultType="com.yang.manet.entity.MANETInfo">
+        select * from android.MANET
+        <where>
+            1=1
+            <if test="uuid !=null">
+                and uuid = #{uuid}
+            </if>
+            <if test="ownerID !=null">
+                and ownerID = #{ownerID}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMANET_member" resultType="com.yang.manet.entity.DeviceInfo">
+        select * from android.deviceInfo where uuid in
+         (select uuid from android.MANET_member where MANET_UUID = #{uuid})
+    </select>
+
+    <select id="queryMANET_memberOther" resultType="com.yang.manet.entity.DeviceInfo">
+        select * from android.deviceInfo where uuid in
+          (select uuid from android.MANET_member where MANET_UUID != #{uuid})
+    </select>
+
+
+<!--    <select id="queryMANET_memberView" resultType="hashmap">-->
+<!--        select * from android.MANET_member where uuid in-->
+<!--         (select uuid from android.MANET_member where MANET_UUID != #{uuid})-->
+<!--    </select>-->
+
+
+
+
+    <select id="queryMANETList" resultType="com.yang.manet.entity.MANETInfo">
+        select * from android.MANET where uuid != #{uuid}
+    </select>
+
+    <select id="queryMANET_memberByMap" resultType="hashmap">
+        select * from android.MANET_member
+        <where>
+            1=1
+            <if test="uuid !=null">
+                and uuid = #{uuid}
+            </if>
+            <if test="MANET_UUID !=null">
+                and MANET_UUID = #{MANET_UUID}
+            </if>
+            <if test="id !=null">
+                and id != #{id}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

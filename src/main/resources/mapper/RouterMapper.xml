@@ -1,0 +1,209 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.manet.mapper.RouterMapper">
+    <insert id="insertRouter">
+        insert into android.Router
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="source != null">
+                source,
+            </if>
+            <if test="dest != null">
+                dest,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="hop != null">
+                hop,
+            </if>
+            <if test="MANET_UUID != null">
+                MANET_UUID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="source != null">
+                #{source},
+            </if>
+            <if test="dest != null">
+                #{dest},
+            </if>
+            <if test="path != null">
+                #{path},
+            </if>
+            <if test="hop != null">
+                #{hop},
+            </if>
+            <if test="MANET_UUID != null">
+                #{MANET_UUID},
+            </if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertNeighborGraph">
+        insert into android.neighborGraph
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sourceName != null">
+                sourceName,
+            </if>
+            <if test="sourceMAC != null">
+                sourceMAC,
+            </if>
+            <if test="desName != null">
+                desName,
+            </if>
+            <if test="desMAC != null">
+                desMAC,
+            </if>
+            <if test="MANET_UUID != null">
+                MANET_UUID,
+            </if>
+            <if test="timeRecord != null">
+                timeRecord,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sourceName != null">
+                #{sourceName},
+            </if>
+            <if test="sourceMAC != null">
+                #{sourceMAC},
+            </if>
+            <if test="desName != null">
+                #{desName},
+            </if>
+            <if test="desMAC != null">
+                #{desMAC},
+            </if>
+            <if test="MANET_UUID != null">
+                #{MANET_UUID},
+            </if>
+            <if test="timeRecord != null">
+                #{timeRecord},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateNeighborGraph">
+        update android.neighborGraph
+        <set>
+            <if test="MANET_UUID != null">
+                MANET_UUID = #{MANET_UUID},
+            </if>
+        </set>
+        where sourceName = #{name} or desName = #{name}
+
+    </update>
+    <update id="updateNeighborGraphById">
+        update android.neighborGraph
+        <trim prefix="set" suffixOverrides=",">
+            <if test="MANET_UUID != null">
+                MANET_UUID = #{MANET_UUID},
+            </if>
+            <if test="sourceName !=null">
+                sourceName = #{sourceName},
+            </if>
+            <if test="desName !=null">
+                desName = #{desName},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRouterByid">
+        delete from android.Router where id = #{id}
+    </delete>
+    <delete id="deleteNeighborGraphBymap">
+        delete from android.neighborGraph
+        <where>
+            1=1
+            <if test="sourceName !=null">
+                and sourceName = #{sourceName}
+            </if>
+            <if test="desName !=null">
+                and desName = #{desName}
+            </if>
+        </where>
+    </delete>
+<!-- sourceName  = #{sourceName} or desName = #{sourceName}-->
+
+    <delete id="deleteNeighborGraphSameSoucreDes">
+        delete from android.neighborGraph where sourceName = #{sourceName} or  desName= #{sourceName}
+    </delete>
+
+
+    <delete id="deleteRouterSameSoucreDes" parameterType="hashmap">
+        <bind name="pattern" value="'%' + sourceName + '%'" />
+        delete from android.Router  where path LIKE #{pattern}
+    </delete>
+    <delete id="deleteRouterByMap">
+        delete from android.Router
+        <where>
+            1=1
+            <if test="source !=null">
+                and source = #{source}
+            </if>
+            <if test="dest !=null">
+                and dest = #{dest}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="findNeighborGraph" parameterType="hashmap" resultType="com.yang.manet.entity.NeighborGraph">
+        select * from android.neighborGraph
+        <where>
+            1=1
+            <if test="sourceName !=null">
+                and sourceName = #{sourceName}
+            </if>
+            <if test="desName !=null">
+                and desName = #{desName}
+            </if>
+        </where>
+    </select>
+    <select id="findAllNeighborGraph" parameterType="hashmap" resultType="com.yang.manet.entity.NeighborGraph">
+        select * from android.neighborGraph
+        <where>
+            1=1
+            <if test="MANET_UUID !=null">
+                and MANET_UUID = #{MANET_UUID}
+            </if>
+        </where>
+    </select>
+
+    <select id="findRouterByMap" resultType="com.yang.manet.entity.Router">
+        select * from android.Router
+        <where>
+            1=1
+            <if test="source !=null">
+                and source = #{source}
+            </if>
+            <if test="dest !=null">
+                and dest = #{dest}
+            </if>
+            <if test="path !=null">
+                and path = #{path}
+            </if>
+        </where>
+    </select>
+    <select id="findRoutersByMap" resultType="com.yang.manet.entity.Router">
+        select * from android.Router
+        <where>
+            1=1
+            <if test="source !=null">
+                and source = #{source}
+            </if>
+            <if test="dest !=null">
+                and dest = #{dest}
+            </if>
+            <if test="path !=null">
+                and path = #{path}
+            </if>
+        </where>
+    </select>
+    <select id="findAllNeighborGraphByMap" resultType="com.yang.manet.entity.NeighborGraph">
+        select * from android.neighborGraph
+        where sourceName = #{name} or desName = #{name}
+    </select>
+</mapper>
